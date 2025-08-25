@@ -1,6 +1,7 @@
 <script setup lang="ts">
-  import CurrentWeatherCard from '@/components/currentWeatherCard.vue';
-  import sun from '@/components/icons/sun.vue';
+import CurrentWeatherCard from '@/components/currentWeatherCard.vue';
+import Header from '@/components/header.vue';
+import sun from '@/components/icons/sun.vue';
 import type { CurrentWeather } from '@/types';
 
   const weather: CurrentWeather = {
@@ -13,6 +14,7 @@ import type { CurrentWeather } from '@/types';
 
 <template>
   <div class="home">
+    <Header/>
     <CurrentWeatherCard :icon="sun" :weather="weather"></CurrentWeatherCard>
   </div>
 </template>

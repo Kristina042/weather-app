@@ -32,8 +32,6 @@ defineProps<{
   min-width: 300px;
   min-height: 200px;
 
-  font-family: 'Inter';
-
   background-color: rgba(31, 0, 205, 0.2);
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(8px);
