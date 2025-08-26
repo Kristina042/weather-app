@@ -23,12 +23,19 @@ import SearchBar from './searchBar.vue';
 
 <style scoped lang="scss">
 .header {
-    background-color: rgba($color: #1000a2, $alpha: 0.4);
+    background-color: rgba($color: #1300b9, $alpha: 0.3);
     width: 100%;
-    padding: 10px 5px;
+    padding: 5px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    position: sticky;
+    top: 0px;
+
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+    z-index: 1000;
 
     &__name-and-logo{
         display: flex;
@@ -37,8 +44,8 @@ import SearchBar from './searchBar.vue';
     }
 
     &__logo {
-        height: 40px;
-        width: 40px;
+        height: 55px;
+        width: 55px;
         display: flex;
         justify-content: center;
         align-items: center;

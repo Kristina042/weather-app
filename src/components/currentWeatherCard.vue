@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <div class="weather-card">
-    <component class="weather-card__icon" :is="icon"/>
+     <img class="weather-card__icon" src="./icons/sun-cloud-icon.png"/>
 
     <div class="weather-card__info">
       <div class="weather-card__info--city">{{ weather.city }}</div>
@@ -27,14 +27,13 @@ defineProps<{
 .weather-card {
   color: white;
   padding: 20px;
-  margin: 20px;
 
   min-width: 300px;
   min-height: 200px;
 
   background-color: rgba(31, 0, 205, 0.2);
   backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(1x);
   border-radius: 20px;
   border: 2px solid rgba(255, 255, 255, 0.05);
   box-shadow:
@@ -73,6 +72,8 @@ defineProps<{
     position: absolute;
     top: 12px;
     left: 12px;
+    width: 60px;
+    height: 60px;
   }
 }
 
