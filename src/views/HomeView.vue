@@ -3,7 +3,6 @@ import CurrentWeatherCard from '@/components/currentWeatherCard.vue';
 import WeekForcastCard from '@/components/weekForcastCard.vue'
 import MiniCard from '@/components/miniCard.vue'
 import Header from '@/components/header.vue';
-import type { CurrentWeather } from '@/types';
 import { mockWeekForcast } from '@/mocks/mockData';
 import sun from '@/components/icons/sun.vue';
 import sunCloud from '@/components/icons/sun-cloud-icon.png'
@@ -11,27 +10,32 @@ import termometerIcon from '@/components/icons/termometer.png'
 import WindIcon from '@/components/icons/wind.png'
 import Sunrise from '@/components/icons/sunrise.png'
 import Sunset from '@/components/icons/sunset.png'
+import { storeToRefs } from "pinia";
+import { useCurrentWeatherStore } from "@/stores/currentWeather";
 
-  const weather: CurrentWeather = {
-    city: 'Gdansk',
-    temp: 25,
-    description:'mostly sunny',
-    timestamp: '12:42'
-  }
+const store = useCurrentWeatherStore();
+const { currentWeatherDto, currentWeather, loading, error } = storeToRefs(store);
+
+store.fetchWeather("Gdansk");
+
 </script>
 
 <template>
   <div class="home">
     <Header/>
-    <CurrentWeatherCard :icon="sun" :weather="weather"></CurrentWeatherCard>
+
+    <CurrentWeatherCard :icon="sun" :weather="currentWeather"></CurrentWeatherCard>
+    <div v-if="loading">loading current weather...</div>
+
     <WeekForcastCard :forcast="mockWeekForcast"/>
 
     <div class="mini-cards">
-      <MiniCard name="humidity" value="83%" text="it's super moist today" :icon="sunCloud"/>
-      <MiniCard name="feels like" value="28 °" text="humitity makes it feel hotter" :icon="termometerIcon"/>
-      <MiniCard name="wind" value="16 m/s" text="it's fokin wimbdy today" :icon="WindIcon"/>
-      <MiniCard name="sunrise" value="6:14" text="early rise" :icon="Sunrise"/>
-      <MiniCard name="sunset" value="22:09" text="bedtime" :icon="Sunset"/>
+      <MiniCard name="humidity" :value="currentWeatherDto?.humidity" unit="%" text="some text" :icon="sunCloud"/>
+      <MiniCard name="feels like" :value="currentWeatherDto?.temp.feels_like" unit="°" text="some text" :icon="termometerIcon"/>
+      <MiniCard name="wind" :value="currentWeatherDto?.wind.speed" unit="m/s" text="some text" :icon="WindIcon"/>
+      <MiniCard name="sunrise" :value="currentWeatherDto?.sun.sunrise" text="some text" :icon="Sunrise"/>
+      <MiniCard name="sunset" :value="currentWeatherDto?.sun.sunset" text="some text" :icon="Sunset"/>
+      <MiniCard name="pressure" :value="currentWeatherDto?.pressure" unit="hPa" text="some text" :icon="termometerIcon"/>
     </div>
   </div>
 </template>

@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import type { CurrentWeather } from '@/types';
+import type { CurrentWeatherModel } from '@/types';
+
 
 defineProps<{
-  weather: CurrentWeather,
+  weather: CurrentWeatherModel | null,
   icon: {}
 }>()
+
 </script>
 
 <template>
-  <div class="weather-card">
-     <img class="weather-card__icon" src="./icons/sun-cloud-icon.png"/>
+  <div v-if="weather" class="weather-card">
+    <img class="weather-card__icon" src="./icons/sun-cloud-icon.png"/>
 
     <div class="weather-card__info">
       <div class="weather-card__info--city">{{ weather.city }}</div>
@@ -17,8 +19,9 @@ defineProps<{
       <div class="weather-card__info--description">{{ weather.description }}</div>
     </div>
 
-    <div class="weather-card__timestamp">{{ weather.timestamp }}</div>
+    <div  class="weather-card__timestamp">{{ weather.timestamp }}</div>
   </div>
+
 </template>
 
 <style lang="scss">
@@ -30,8 +33,7 @@ defineProps<{
 
   min-width: 300px;
   min-height: 200px;
-
-  background-color: rgba(31, 0, 205, 0.2);
+  background-color: rgba($color: $dark-blue, $alpha: 0.2);
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(1x);
   border-radius: 20px;
@@ -62,7 +64,7 @@ defineProps<{
   }
 
   &__timestamp {
-    font-size: 10px;
+    font-size: 12px;
     position: absolute;
     bottom: 12px;
     right: 12px;
