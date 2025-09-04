@@ -34,3 +34,13 @@ export type CurrentWeatherDto = {
     sea_level?: number,         // hPa, optional
     grnd_level?: number         // hPa, optional
 }
+
+export type CurrentWeatherWithLocalTime = Omit<
+  CurrentWeatherDto,
+  "sun"
+> & {
+  sun: {
+    sunrise: string;
+    sunset: string;
+  };
+};
