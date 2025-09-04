@@ -23,7 +23,7 @@ const props = defineProps<{
   width: 300px;
   padding: 5px 0px;
 
-  background-color: rgba(31, 0, 205, 0.2);
+  background-color: rgba($color: $dark-blue, $alpha: 0.2);
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(1x);
   border-radius: 20px;

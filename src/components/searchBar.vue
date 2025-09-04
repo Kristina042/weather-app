@@ -15,7 +15,7 @@
         border-radius: 10px;
         border: none;
         padding: 5px 10px;
-        background-color: rgba(172, 142, 226, 0.8);
+        background-color: rgba($color: $light-green, $alpha: 0.5);
         color: white;
         font-family: 'Inter';
         font-size: 16px;

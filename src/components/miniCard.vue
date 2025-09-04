@@ -3,7 +3,8 @@ import { computed } from 'vue';
 
  const props = defineProps<{
     name:string,
-    value: string,
+    value: string | number | undefined,
+    unit?: string
     text: string,
     icon: object | string
  }>()
@@ -17,14 +18,17 @@ import { computed } from 'vue';
     <component class="mini-card__icon" v-if="isSvg" :is="icon" />
     <img class="mini-card__icon" v-else :src="(icon as string)" />
     <div class="mini-card__name">{{ name }}</div>
-    <div class="mini-card__value">{{ value }}</div>
+    <div class="mini-card__value-and-unit">
+        <div class="mini-card__value">{{ value }}</div>
+        <div class="minicard__unit">{{ unit }}</div>
+    </div>
     <div class="mini-card__text">{{ text }}</div>
 </div>
 </template>
 
 <style lang="scss" scoped>
 .mini-card {
-    background-color: rgba(31, 0, 205, 0.2);
+    background-color: rgba($color: $dark-blue, $alpha: 0.2);
     backdrop-filter: blur(1px);
     -webkit-backdrop-filter: blur(1x);
     border-radius: 20px;
@@ -52,10 +56,13 @@ import { computed } from 'vue';
         left: 10px;
     }
 
-    &__value {
+    &__value-and-unit {
         padding-top: 10px;
-        font-size: 28px;
-        align-self: flex-start;
+        font-size: 24px;
+        line-height: 24px;
+        display: flex;
+        justify-content: center;
+        gap: 5px
     }
 
     &__text {
