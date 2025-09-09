@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { useWeatherForecastStore } from '@/stores/weatherForecast'
-import type { DetaliedTempForecast } from '@/types'
-import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
-import TempChart from '@/components/tempChart.vue';
 import Header from '@/components/header.vue';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed } from 'vue';
+import DualLineChart from '@/components/charts/dualLineChart.vue';
+import type { DayForecast } from '@/types';
 const route = useRoute()
-const index = Number(route.params.index) // index from route
+const index = Number(route.params.index)
 
 const forecastStore = useWeatherForecastStore()
 
@@ -16,13 +15,11 @@ if (!forecastStore.detailedForecastDto) {
   forecastStore.fetchDetailedForecast("Gdansk")
 }
 
-const tempForecast = computed(() => {
-    if (!forecastStore.detailedForecastDto) return []
 
-    return forecastStore.detailedForecastDto.days[index].data.map(item => ({
-        hour: item.hour,
-        temps: item.temp
-    }))
+
+const oneDayForecast = computed<DayForecast | null>(() => {
+  if (!forecastStore.detailedForecastDto) return null
+  return forecastStore.detailedForecastDto.days[index]
 })
 </script>
 
@@ -31,7 +28,19 @@ const tempForecast = computed(() => {
         <Header class="detailedForecast__header"/>
 
         <div class="detailedForecast__cards">
-            <TempChart :forecast="tempForecast"/>
+            <DualLineChart
+                v-if="oneDayForecast"
+                line1="Temperature"
+                line2="Feels like"
+                :forecast="oneDayForecast"
+            />
+
+            <DualLineChart
+                v-if="oneDayForecast"
+                line1="Wind speed"
+                line2="Gusts"
+                :forecast="oneDayForecast"
+            />
         </div>
     </div>
 </template>
@@ -45,8 +54,13 @@ const tempForecast = computed(() => {
     align-items: center;
     gap: 40px;
 
+
+    margin-bottom: 100px;
+
     &__cards {
-        //width: 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
     }
 }
 </style>

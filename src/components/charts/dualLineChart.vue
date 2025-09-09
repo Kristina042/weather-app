@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DetaliedTempForecast } from '@/types';
+import type { DayForecast, DetaliedTempForecast } from '@/types';
 import {
   Chart as ChartJS,
   Title,
@@ -11,11 +11,13 @@ import {
   CategoryScale,
   LinearScale,
 } from 'chart.js'
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { LineChart } from 'vue-chart-3'
 
  const props = defineProps<{
-    forecast: DetaliedTempForecast,
+    forecast: DayForecast,
+    line1: 'Wind speed' | 'Gusts' |'Temperature' | 'Pressure' | 'Feels like',
+    line2:  'Wind speed' | 'Gusts' |'Temperature' | 'Pressure' | 'Feels like',
  }>()
 
 
@@ -31,26 +33,52 @@ ChartJS.register(
 )
 
 // State for selected dataset
-const activeType = ref<'temp' | 'feels_like'>('temp')
+const activeType1 = props.line1
+const activeType2 = props.line2
+
+const activeType = ref<'Wind speed' | 'Gusts' |'Temperature' | 'Pressure' | 'Feels like'>(activeType1)
+
+const getDataSet = (dataType: string): (number | null)[] => {
+  if (dataType === 'Wind speed') {
+    return props.forecast.data.map(item => item.wind.speed)
+  } else if (dataType === 'Gusts') {
+    return props.forecast.data.map(item => item.wind.gust ?? null)
+  } else if (dataType === 'Temperature') {
+    return props.forecast.data.map(item => item.temp.temp)
+  } else if (dataType === 'Feels like') {
+    return props.forecast.data.map(item => item.temp.feels_like)
+  }
+
+  return []
+}
+
+const getUnit = (dataType: string): string => {
+    if (dataType === 'Wind speed' || dataType === 'Gusts')
+        return '(m/s)'
+    else if (dataType === 'Temperature' || dataType === 'Feels like')
+        return '(°C)'
+
+    return ''
+}
 
 const chartData = computed(() => {
   return {
-    labels: props.forecast.map(item => item.hour),
+    labels: props.forecast.data.map(item => item.hour),
     datasets: [
       {
-        label: activeType.value === 'temp' ? 'Temperature (°C)' : '',
-        data: props.forecast.map(item => item.temps.temp),
-        borderColor:  activeType.value === 'temp' ? 'rgba(255, 253, 88, 0.8)' : 'rgba(255, 255, 255, 0.4)',
-        pointBackgroundColor: activeType.value === 'temp' ? 'rgba(255, 253, 88, 0.8)' : 'rgba(255, 255, 255, 0.4)',
+        label: activeType.value === activeType1 ? `${activeType1} ${getUnit(activeType1)}` : '',
+        data: getDataSet(activeType1),
+        borderColor:  activeType.value === activeType1 ? 'rgba(255, 253, 88, 0.8)' : 'rgba(255, 255, 255, 0.4)',
+        pointBackgroundColor: activeType.value === activeType1 ? 'rgba(255, 253, 88, 0.8)' : 'rgba(255, 255, 255, 0.4)',
         tension: 0.3,
         fill: true,
         pointRadius: 3,
       },
       {
-        label: activeType.value === 'feels_like' ? 'Feels like (°C)' : '',
-        data: props.forecast.map(item => item.temps.feels_like),
-        borderColor:  activeType.value === 'feels_like' ? 'rgba(255, 253, 88, 0.8)' : 'rgba(255, 255, 255, 0.4)',
-        pointBackgroundColor: activeType.value === 'feels_like' ? 'rgba(255, 253, 88, 0.8)' : 'rgba(255, 255, 255, 0.4)',
+        label: activeType.value === activeType2 ? `${activeType2} ${getUnit(activeType2)}` : '',
+        data: getDataSet(activeType2),
+        borderColor:  activeType.value === activeType2 ? 'rgba(255, 253, 88, 0.8)' : 'rgba(255, 255, 255, 0.4)',
+        pointBackgroundColor: activeType.value === activeType2 ? 'rgba(255, 253, 88, 0.8)' : 'rgba(255, 255, 255, 0.4)',
         tension: 0.3,
         fill: true,
         pointRadius: 3,
@@ -91,24 +119,24 @@ const chartOptions = {
 
 <template>
   <div class="chart__wrapper">
-    <div class="chart">
-      <LineChart class="chart__data" :chart-data="chartData" :options="chartOptions" />
+    <div v-if="forecast" class="chart">
+      <LineChart v-if="forecast" class="chart__data" :chart-data="chartData" :options="chartOptions" />
 
       <div class="chart__buttons">
         <button
           class="chart__button-left"
-          :class="{ active: activeType === 'temp' }"
-          @click="activeType = 'temp'"
+          :class="{ active: activeType === activeType1 }"
+          @click="activeType = activeType1"
         >
-          Actual
+          {{ activeType1 }}
         </button>
 
         <button
           class="chart__button-right"
-          :class="{ active: activeType === 'feels_like' }"
-          @click="activeType = 'feels_like'"
+          :class="{ active: activeType === activeType2 }"
+          @click="activeType = activeType2"
         >
-          Feels Like
+          {{ activeType2 }}
         </button>
       </div>
 
@@ -126,7 +154,7 @@ const chartOptions = {
   border-radius: 20px;
   border: 2px solid rgba(255, 255, 255, 0.05);
   box-shadow:
-  0 10px 20px rgba(0, 0, 0, 0.5),
+  0 10px 15px rgba(0, 0, 0, 0.5),
   inset 0 2px 0 rgba(255, 255, 255, 0.7),
   inset 0 -2px 0 rgba(255, 255, 255, 0.1);
 
@@ -141,7 +169,7 @@ const chartOptions = {
 
   &__data {
     height: 250px;
-    width: 400px;
+    width: 300px;
   }
 
   &__button-left {
@@ -156,13 +184,13 @@ const chartOptions = {
 
   &__buttons {
     button {
-      min-width: 100px;
+      min-width: 120px;
       padding: 6px 12px;
       border: none;
       cursor: pointer;
       background-color: rgba(255,255,255,0.4);
       color: white;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 500;
       transition: background-color 0.6s;
 

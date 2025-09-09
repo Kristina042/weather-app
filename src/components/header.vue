@@ -54,7 +54,7 @@ import SearchBar from './searchBar.vue';
         &--1 {
             font-weight: 700;
             font-size: 32px;
-            color: rgb(255, 230, 0);
+            color: rgb(255, 240, 108);
         }
 
         &--2 {

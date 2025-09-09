@@ -60,23 +60,23 @@ export type TempCardModel = {
 export type ForecastEntry = {
   hour: string,
   weather: {
-      main: string,               //clouds
-      description: string,        //broken clouds
+    main: string,               //clouds
+    description: string,        //broken clouds
   }
   temp: {
-      temp: number,
-      feels_like: number,
-      temp_min: number,
-      temp_max: number,
+    temp: number,
+    feels_like: number,
+    temp_min: number,
+    temp_max: number,
   },
   wind: {
-      speed: number,
-      deg: number,
-      gust ?:number
+    speed: number,
+    deg: number,
+    gust: number
   },
   sun: {
-      sunrise: string,
-      sunset: string
+    sunrise: string,
+    sunset: string
   },
   clouds: number,             //%
   pressure: number,           //hPa
