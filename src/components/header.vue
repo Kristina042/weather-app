@@ -6,7 +6,7 @@ import SearchBar from './searchBar.vue';
 <template>
 <div class="header">
     <div class="header__name-and-logo">
-        <img class="header__logo" src="/public/green-planet.png"/>
+        <!-- <img class="header__logo" src="/public/blue-planet.png"/> -->
 
         <div class="header__name">
             <span class="header__name--1">Rain</span>
@@ -23,9 +23,9 @@ import SearchBar from './searchBar.vue';
 
 <style scoped lang="scss">
 .header {
-    background-color: rgba($color: $dark-green, $alpha: 0.2);
+    background-color: rgba(rgb(88, 0, 155), $alpha: 0.2);
     width: 100%;
-    padding: 0 10px;
+    padding: 5px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -54,7 +54,7 @@ import SearchBar from './searchBar.vue';
         &--1 {
             font-weight: 700;
             font-size: 32px;
-            color: black;
+            color: rgb(255, 230, 0);
         }
 
         &--2 {

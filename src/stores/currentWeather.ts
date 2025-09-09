@@ -21,7 +21,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
   const dto = ref<CurrentWeatherDto | null>(null)
 
   const currentWeatherDto = computed(() => {
-    if (!dto.value) return null; // handle null case
+    if (!dto.value) return null
 
     return {
       ...dto.value,
@@ -44,7 +44,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
     dto.value ? mapCurrentWeather(dto.value) : null
   )
 
-    const loading = ref(false);
+  const loading = ref(false);
   const error = ref<string | null>(null);
 
   async function fetchWeather(city: string) {
@@ -60,7 +60,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
   }
 
   return {
-    currentWeatherDto,       // full raw data
+    currentWeatherDto, // full raw data
     currentWeather,   // simplified model for big card
     loading,
     error,

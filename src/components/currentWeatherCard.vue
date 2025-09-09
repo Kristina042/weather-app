@@ -31,7 +31,7 @@ defineProps<{
   color: white;
   padding: 20px;
 
-  min-width: 300px;
+  width: 100%;
   min-height: 200px;
   background-color: rgba($color: $dark-blue, $alpha: 0.2);
   backdrop-filter: blur(1px);

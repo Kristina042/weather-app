@@ -38,7 +38,7 @@ import { computed } from 'vue';
     inset 0 2px 0 rgba(255, 255, 255, 0.7),
     inset 0 -2px 0 rgba(255, 255, 255, 0.1);
 
-    width: 140px;
+    width: 100%;
     height: 140px;
     padding: 15px;
 
@@ -54,6 +54,7 @@ import { computed } from 'vue';
         height: 24px;
         position:absolute;
         left: 10px;
+        opacity: 0.6;
     }
 
     &__value-and-unit {
@@ -71,9 +72,10 @@ import { computed } from 'vue';
     }
 
     &__name {
-        font-size: 18px;
+        font-size: 16px;
         align-self: flex-start;
         padding-left: 25px;
+        opacity: 0.7;
     }
 
 
