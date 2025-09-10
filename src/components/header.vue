@@ -1,13 +1,17 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import SearchBar from './searchBar.vue';
 
+const router = useRouter()
+
+const goToHomePage = () => {
+    router.push({ name: 'home'})
+}
 </script>
 
 <template>
 <div class="header">
-    <div class="header__name-and-logo">
-        <!-- <img class="header__logo" src="/public/blue-planet.png"/> -->
-
+    <div @click="goToHomePage" class="header__name-and-logo">
         <div class="header__name">
             <span class="header__name--1">Rain</span>
             <span class="header__name--2">check</span>
@@ -40,6 +44,8 @@ import SearchBar from './searchBar.vue';
     &__name-and-logo{
         display: flex;
         align-items: center;
+
+        cursor: pointer;
     }
 
     &__logo {
