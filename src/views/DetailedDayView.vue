@@ -2,24 +2,23 @@
 import { useWeatherForecastStore } from '@/stores/weatherForecast'
 import { useRoute } from 'vue-router'
 import Header from '@/components/header.vue';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import DualLineChart from '@/components/charts/dualLineChart.vue';
 import type { DayForecast } from '@/types';
+
 const route = useRoute()
 const index = Number(route.params.index)
 
 const forecastStore = useWeatherForecastStore()
 
-// Fetch forecast if empty
-if (!forecastStore.detailedForecastDto) {
-  forecastStore.fetchDetailedForecast("Gdansk")
-}
-
-
-
 const oneDayForecast = computed<DayForecast | null>(() => {
   if (!forecastStore.detailedForecastDto) return null
   return forecastStore.detailedForecastDto.days[index]
+})
+
+onMounted(async () => {
+    if (forecastStore.detailedForecastDto) return
+    await forecastStore.fetchDetailedForecast("Gdansk")
 })
 </script>
 

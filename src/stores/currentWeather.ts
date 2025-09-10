@@ -4,7 +4,7 @@ import { getCurrentWeather } from '@/services/weather-service'
 import type { CurrentWeatherDto } from '@/types'
 import type { CurrentWeatherModel } from '@/types'
 
-function mapCurrentWeather(currentWeather: CurrentWeatherDto): CurrentWeatherModel {
+const mapCurrentWeather = (currentWeather: CurrentWeatherDto): CurrentWeatherModel => {
   return {
     city: currentWeather.city,
     temp: Math.round(currentWeather.temp.temp),
@@ -51,7 +51,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
     loading.value = true;
     error.value = null;
     try {
-      dto.value = await getCurrentWeather(city); // save raw backend data
+      dto.value = await getCurrentWeather(city);
     } catch (err) {
       error.value = "Failed to load weather";
     } finally {
@@ -60,8 +60,8 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
   }
 
   return {
-    currentWeatherDto, // full raw data
-    currentWeather,   // simplified model for big card
+    currentWeatherDto,
+    currentWeather,
     loading,
     error,
     fetchWeather,

@@ -20,7 +20,7 @@ import { computed } from 'vue';
     <div class="mini-card__name">{{ name }}</div>
     <div class="mini-card__value-and-unit">
         <div class="mini-card__value">{{ value }}</div>
-        <div class="minicard__unit">{{ unit }}</div>
+        <div class="mini-card__unit">{{ unit }}</div>
     </div>
     <div class="mini-card__text">{{ text }}</div>
 </div>

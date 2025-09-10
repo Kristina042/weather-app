@@ -1,4 +1,4 @@
-import { computed, ref } from "vue"
+import { ref } from "vue"
 import { defineStore } from "pinia"
 import type { ForecastDto } from "@/types"
 import type { ShortForecastDto } from "@/types"

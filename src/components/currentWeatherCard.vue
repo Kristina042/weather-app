@@ -4,7 +4,7 @@ import type { CurrentWeatherModel } from '@/types';
 
 defineProps<{
   weather: CurrentWeatherModel | null,
-  icon: {}
+  icon: unknown
 }>()
 
 </script>

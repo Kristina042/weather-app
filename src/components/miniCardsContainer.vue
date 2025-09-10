@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import MiniCard from '@/components/miniCard.vue'
-import sun from '@/components/icons/sun.vue';
 import sunCloud from '@/components/icons/sun-cloud-icon.png'
 import termometerIcon from '@/components/icons/termometer.png'
-import WindIcon from '@/components/icons/wind.png'
 import Sunrise from '@/components/icons/sunrise.png'
 import Sunset from '@/components/icons/sunset.png'
 import WindCard from './windCard.vue';

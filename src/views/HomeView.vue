@@ -1,21 +1,23 @@
 <script setup lang="ts">
-import CurrentWeatherCard from '@/components/currentWeatherCard.vue';
-import shortForcastCard from '@/components/shortForcastCard.vue'
-import Header from '@/components/header.vue';
-import sun from '@/components/icons/sun.vue';
+import router from '@/router';
 import { storeToRefs } from "pinia";
+import { onBeforeMount } from 'vue';
+
 import { useCurrentWeatherStore } from "@/stores/currentWeather";
 import { useWeatherForecastStore } from '@/stores/weatherForecast';
+
+import sun from '@/components/icons/sun.vue';
+import Header from '@/components/header.vue';
+import ShortForecastCard from '@/components/shortForecastCard.vue';
+import CurrentWeatherCard from '@/components/currentWeatherCard.vue';
 import MiniCardsContainer from '@/components/miniCardsContainer.vue';
-import type { DetaliedTempForecast } from '@/types';
-import router from '@/router';
 
 const currentWeatherStore = useCurrentWeatherStore()
 const { currentWeatherDto, currentWeather, loading, error } = storeToRefs(currentWeatherStore)
-currentWeatherStore.fetchWeather("Gdansk")
 
 const forecastStore = useWeatherForecastStore()
 const { shortForecastDto } = storeToRefs(forecastStore)
+
 forecastStore.fetchDetailedForecast('Gdansk')
 forecastStore.fetchShortForecast()
 
@@ -23,6 +25,9 @@ const goToForecast = (index: number) => {
   router.push({ name: 'forecast', params: { index } })
 }
 
+onBeforeMount(async () => {
+  await currentWeatherStore.fetchWeather("Gdansk")
+})
 </script>
 
 
@@ -37,7 +42,7 @@ const goToForecast = (index: number) => {
       <div v-if="loading">loading current weather...</div>
       <div v-if="error">{{ error }}</div>
 
-      <shortForcastCard :forcast="shortForecastDto" @select="goToForecast"/>
+      <ShortForecastCard :forecast="shortForecastDto" @select="goToForecast"/>
 
       <MiniCardsContainer :currentWeather="currentWeatherDto"/>
     </div>
