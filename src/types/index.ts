@@ -81,8 +81,8 @@ export type ForecastEntry = {
   clouds: number,             //%
   pressure: number,           //hPa
   humidity: number,           //%
-  sea_level?: number,         // hPa, optional
-  grnd_level?: number         // hPa, optional
+  sea_level: number,         // hPa, optional
+  grnd_level: number         // hPa, optional
 }
 
 export type ForecastDto = {
@@ -101,13 +101,14 @@ export type DayForecast = {
 export type ShortForecastDto = {
   city: string;
   days: {
+    description: string;
     dayOfWeek: string;
     temp_max: number;
     temp_min: number;
   }[]
 }
 
-export type DetaliedTempForecast = {
+export type DetailedTempForecast = {
   hour: string,
   temps: {
     temp: number,
