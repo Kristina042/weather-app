@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import type { WindModel } from '@/types';
+import { getWindDescription } from '@/utils/weatherDescriptions';
 
  const props = defineProps<{
     wind: WindModel | undefined,
@@ -10,7 +10,7 @@ import type { WindModel } from '@/types';
 </script>
 
 <template>
-<div class="wind-card">
+<div class="wind-card" v-if="wind">
     <img class="wind-card__icon"  src="/src/components/icons/wind.png"/>
     <div class="wind-card__name">wind</div>
 
@@ -36,7 +36,7 @@ import type { WindModel } from '@/types';
         <img class="wind-card__compas" src="./icons/compas.png"/>
     </div>
 
-    <div class="wind-card__text">best to stay inside</div>
+    <div class="wind-card__text">{{ getWindDescription(wind?.speed) }}</div>
 </div>
 </template>
 

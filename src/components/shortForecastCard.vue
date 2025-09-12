@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ShortForecastDto } from '@/types';
-import sunIcon from '@/components/icons/sun.vue'
+import sunCloud1 from './icons/svg/sunCloud1.vue';
+import { getWeatherIcon } from '@/utils/weatherIconUtil';
 
 defineProps<{
   forecast: ShortForecastDto | null,
@@ -16,7 +17,7 @@ const emit = defineEmits<{
     <div class="card__header">5-day forecast</div>
     <div @click="emit('select', index)" v-for="(item, index) in forecast?.days" :key="index" class="card__day">
       <div class="card__item">{{ item.dayOfWeek.slice(0, 3)}}</div>
-      <div class="card__item"><component :is="sunIcon"/></div>
+      <div class="card__item"><component :is="getWeatherIcon(item.description)"/></div>
       <div class="card__item">low: {{ Math.round(item.temp_min) }} °C</div>
       <div class="card__item">high: {{ Math.round(item.temp_max) }} °C</div>
     </div>
@@ -49,7 +50,7 @@ const emit = defineEmits<{
     cursor: pointer;
     display: grid;
     grid-template-columns: 1fr 1fr 2fr 2.3fr;
-    border-bottom: solid 3px rgba(255, 255, 255, 0.2);
+    border-bottom: solid 3px rgba(255, 255, 255, 0.3);
 
     &:last-child {
       border-bottom: none;
@@ -62,7 +63,7 @@ const emit = defineEmits<{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 5px 0 5px 10px;
+    padding: 5px 0 5px 8px;
   }
 }
 </style>
