@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { ShortForecastDto } from '@/types';
-import sunCloud1 from './icons/svg/sunCloud1.vue';
 import { getWeatherIcon } from '@/utils/weatherIconUtil';
+import cardSkeleton from './skeletonLoaders/cardSkeleton.vue';
 
 defineProps<{
   forecast: ShortForecastDto | null,
+  isLoading: boolean
 }>()
 
 const emit = defineEmits<{
@@ -13,7 +14,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="card">
+  <div v-if="!isLoading" class="card">
     <div class="card__header">5-day forecast</div>
     <div @click="emit('select', index)" v-for="(item, index) in forecast?.days" :key="index" class="card__day">
       <div class="card__item">{{ item.dayOfWeek.slice(0, 3)}}</div>
@@ -21,6 +22,10 @@ const emit = defineEmits<{
       <div class="card__item">low: {{ Math.round(item.temp_min) }} °C</div>
       <div class="card__item">high: {{ Math.round(item.temp_max) }} °C</div>
     </div>
+  </div>
+
+  <div class="loading-skeleton" v-else>
+    <card-skeleton text="fetching short forecast..."/>
   </div>
 </template>
 
@@ -58,12 +63,15 @@ const emit = defineEmits<{
 
   }
 
-
   &__item {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding: 5px 0 5px 8px;
   }
+}
+
+.loading-skeleton {
+  width: 100%;
 }
 </style>

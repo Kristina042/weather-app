@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CurrentWeatherModel } from '@/types';
-
+import cardSkeleton from './skeletonLoaders/cardSkeleton.vue';
 
 defineProps<{
   weather: CurrentWeatherModel | null,
@@ -20,6 +20,9 @@ defineProps<{
     </div>
 
     <div  class="weather-card__timestamp">{{ weather.timestamp }}</div>
+  </div>
+  <div v-else class="loading-skeleton">
+    <card-skeleton :text="'fetching current weather...'"/>
   </div>
 
 </template>
@@ -79,6 +82,10 @@ defineProps<{
   }
 }
 
+.loading-skeleton {
+  width: 100%;
+  height: 200px;
+}
 
 }
 </style>

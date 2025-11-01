@@ -41,9 +41,7 @@ const goToForecast = (index: number) => {
     <Header class="home__header"/>
     <div class="home__weather-cards">
       <CurrentWeatherCard :icon="Rain" :weather="currentWeather"></CurrentWeatherCard>
-      <div v-if="loading">loading current weather...</div>
-      <div v-if="error">{{ error }}</div>
-      <ShortForecastCard :forecast="shortForecastDto" @select="goToForecast"/>
+      <ShortForecastCard :forecast="shortForecastDto" @select="goToForecast" :isLoading="loading || !!error"/>
       <MiniCardsContainer :currentWeather="currentWeatherDto"/>
 
       <dailyViewPopup
