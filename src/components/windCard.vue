@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { WindModel } from '@/types';
 import { getWindDescription } from '@/utils/weatherDescriptions';
+import cardSkeleton from './skeletonLoaders/cardSkeleton.vue';
 
  const props = defineProps<{
     wind: WindModel | undefined,
+    isLoading: boolean
  }>()
 
 
@@ -37,6 +39,10 @@ import { getWindDescription } from '@/utils/weatherDescriptions';
     </div>
 
     <div class="wind-card__text">{{ getWindDescription(wind?.speed) }}</div>
+</div>
+
+<div class="skeleton-loader" v-if="!wind">
+    <card-skeleton text="analyzing..."/>
 </div>
 </template>
 
@@ -108,8 +114,11 @@ import { getWindDescription } from '@/utils/weatherDescriptions';
         padding-left: 25px;
         opacity: 0.7;
     }
+}
 
-
+.skeleton-loader {
+    width: 100%;
+    height: 150px;
 }
 
 </style>

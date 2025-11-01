@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import cardSkeleton from './skeletonLoaders/cardSkeleton.vue';
 
  const props = defineProps<{
     name:string,
     value: string | number | undefined,
     unit?: string
     text: string,
-    icon: object | string
+    icon: object | string,
+    isLoading: boolean
  }>()
 
  const isSvg = computed(() => typeof props.icon === 'object')
@@ -14,16 +16,20 @@ import { computed } from 'vue';
 
 
 <template>
-<div class="mini-card">
-    <component class="mini-card__icon" v-if="isSvg" :is="icon" />
-    <img class="mini-card__icon" v-else :src="(icon as string)" />
-    <div class="mini-card__name">{{ name }}</div>
-    <div class="mini-card__value-and-unit">
-        <div class="mini-card__value">{{ value }}</div>
-        <div class="mini-card__unit">{{ unit }}</div>
+    <div v-if="!isLoading" class="mini-card">
+        <component class="mini-card__icon" v-if="isSvg" :is="icon" />
+        <img class="mini-card__icon" v-else :src="(icon as string)" />
+        <div class="mini-card__name">{{ name }}</div>
+        <div class="mini-card__value-and-unit">
+            <div class="mini-card__value">{{ value }}</div>
+            <div class="mini-card__unit">{{ unit }}</div>
+        </div>
+        <div class="mini-card__text">{{ text }}</div>
     </div>
-    <div class="mini-card__text">{{ text }}</div>
-</div>
+
+    <div class="skeleton-loader" v-else>
+        <card-skeleton text="thinking..."/>
+    </div>
 </template>
 
 <style lang="scss" scoped>
@@ -77,8 +83,10 @@ import { computed } from 'vue';
         padding-left: 25px;
         opacity: 0.7;
     }
+}
 
-
+.skeleton-loader {
+    height: 140px;
 }
 
 </style>
